@@ -142,6 +142,17 @@ def speeches_with_name(tree, name):
         #print(type(segment))
     return texts
 
+def paragraph_iterator(root):
+    """
+    Convert Parla-Clarin XML to an iterator of paragraphs. Returns an iterator of str's.
+    """
+    for body in root.findall(".//{http://www.tei-c.org/ns/1.0}body"):
+        for div in body.findall("{http://www.tei-c.org/ns/1.0}div"):
+            for elem in div:
+                p = "\n".join(div.itertext())
+                yield p
+
+
 if __name__ == '__main__':
     validate_parla_clarin_example()
     #update_test()
