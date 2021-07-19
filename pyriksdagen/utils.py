@@ -108,39 +108,25 @@ def parlaclarin_to_md(tree):
     """
     Convert Parla-Clarin XML to markdown. Returns a string.
     """
-    return ""
+    return None
 
 def parlaclarin_to_txt(tree):
     """
     Convert Parla-Clarin XML to plain text. Returns a string.
     """
-    segments = tree.findall('.//seg')
+    paragraphs = paragraph_iterator(tree)
+    return "\n\n".join(paragraphs)
 
-    for segment in segments:
-        etree.strip_tags(segment, 'seg')
-        #print(type(segment))
-    #return 
-    segment_txts = [etree.tostring(segment, pretty_print=True, encoding="UTF-8").decode("utf-8") for segment in segments]
-    segment_txts = [txt.replace("<seg>", "").replace("</seg>", "") for txt in segment_txts]
-
-    print(segment_txts[0])
-    print(type(segment_txts[0]))
-
-    return "\n".join(segment_txts)
-
-def speeches_with_name(tree, name):
+def speeches_with_name(tree, name=None):
     """
-    Convert Parla-Clarin XML to plain text. Returns a string.
+    Convert Parla-Clarin XML to plain text. Returns a string. If name is None, returns all speeches.
     """
-    us = tree.findall('.//u')
-
-    texts = []
+    us = tree.findall('.//{http://www.tei-c.org/ns/1.0}u')
     for u in us:
-        if name.lower() in u.attrib['who'].lower():
-            text = etree.tostring(u, pretty_print=True, encoding="UTF-8").decode("utf-8")
-            texts.append(text)
-        #print(type(segment))
-    return texts
+        if name is None:
+            yield "\n".join(u.itertext())
+        elif name.lower() in u.attrib['who'].lower():
+            yield "\n".join(u.itertext())
 
 def paragraph_iterator(root):
     """
