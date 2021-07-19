@@ -135,7 +135,7 @@ def paragraph_iterator(root):
     for body in root.findall(".//{http://www.tei-c.org/ns/1.0}body"):
         for div in body.findall("{http://www.tei-c.org/ns/1.0}div"):
             for elem in div:
-                p = "\n".join(div.itertext())
+                p = "\n".join(elem.itertext())
                 yield p
 
 
