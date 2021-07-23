@@ -1,0 +1,1 @@
+pdoc3 --html -o docs pyriksdagen -c latex_math=True --force
