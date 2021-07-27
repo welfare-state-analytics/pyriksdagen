@@ -41,19 +41,6 @@ from os.path import isfile, join
 from pyriksdagen.download import get_blocks, fetch_files
 from pyriksdagen.utils import infer_metadata
 from pyriksdagen.db import filter_db, year_iterator
-
-def _langmod_loss(sentence):
-    return 0.0
-
-def improvement(sentence, regexp):
-    &#34;&#34;&#34;
-    Calculates the improvement in probability for a suggested text edit. Returns a tuple of losses.
-    &#34;&#34;&#34;
-    sentence_suggestion = regexp
-    loss0 = _langmod_loss(sentence)
-    loss1 = _langmod_loss(sentence_suggestion)
-
-    return loss0, loss1
     
 def find_instances(root, pattern_db, c_hashes = dict()):
     &#34;&#34;&#34;
@@ -310,26 +297,6 @@ def curation_workflow(file_db, archive, pattern_db):
     return pd.DataFrame(data=data, columns=columns)</code></pre>
 </details>
 </dd>
-<dt id="pyriksdagen.curation.improvement"><code class="name flex">
-<span>def <span class="ident">improvement</span></span>(<span>sentence, regexp)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Calculates the improvement in probability for a suggested text edit. Returns a tuple of losses.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def improvement(sentence, regexp):
-    &#34;&#34;&#34;
-    Calculates the improvement in probability for a suggested text edit. Returns a tuple of losses.
-    &#34;&#34;&#34;
-    sentence_suggestion = regexp
-    loss0 = _langmod_loss(sentence)
-    loss1 = _langmod_loss(sentence_suggestion)
-
-    return loss0, loss1</code></pre>
-</details>
-</dd>
 </dl>
 </section>
 <section>
@@ -351,7 +318,6 @@ def curation_workflow(file_db, archive, pattern_db):
 <li><code><a title="pyriksdagen.curation.apply_curations" href="#pyriksdagen.curation.apply_curations">apply_curations</a></code></li>
 <li><code><a title="pyriksdagen.curation.curation_workflow" href="#pyriksdagen.curation.curation_workflow">curation_workflow</a></code></li>
 <li><code><a title="pyriksdagen.curation.find_instances" href="#pyriksdagen.curation.find_instances">find_instances</a></code></li>
-<li><code><a title="pyriksdagen.curation.improvement" href="#pyriksdagen.curation.improvement">improvement</a></code></li>
 </ul>
 </li>
 </ul>
