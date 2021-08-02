@@ -206,6 +206,16 @@ def find_introductions(root, pattern_db, names_ids):
     return root
 
 def reclassify(root, classifier, tei=&#34;{http://www.tei-c.org/ns/1.0}&#34;):
+    &#34;&#34;&#34;
+    Reclassify nodes in a Parla-Clarin tree.
+
+    Args:
+        root: root of the lxml tree to be reclassified
+        classifier: lambda function that classifies paragraphs. str-&gt;str,
+            takes paragraph content as input, outputs predicted xml tag, such
+            as note or u.
+        tei: namespace for the output xml
+    &#34;&#34;&#34;
     prev_elem = None
     for ix, elem_tuple in enumerate(list(_iter(root))):
         tag, elem = elem_tuple
@@ -257,7 +267,14 @@ def reclassify(root, classifier, tei=&#34;{http://www.tei-c.org/ns/1.0}&#34;):
     return root
 
 
-def format_paragraph(paragraph, spaces = 12):
+def format_paragraph(paragraph, spaces=12):
+    &#34;&#34;&#34;
+    Formats paragraphs to be equal in width.
+
+    Args:
+        paragraph: paragraph content, str.
+        spaces: size of indentation as number of spaces.
+    &#34;&#34;&#34;
     words = paragraph.replace(&#34;\n&#34;, &#34;&#34;).strip().split()
     s = &#34;\n&#34; + &#34; &#34; * spaces
     row = &#34;&#34;
@@ -277,6 +294,12 @@ def format_paragraph(paragraph, spaces = 12):
     return s
 
 def format_texts(root):
+    &#34;&#34;&#34;
+    Formats all text elements in a Parla-Clarin document.
+
+    Args:
+        root: Parla-Clarin document as an lxml tree root.
+    &#34;&#34;&#34;
     for tag, elem in _iter(root):
 
         if type(elem.text) == str:
@@ -739,12 +762,26 @@ MP database.</p></div>
 <span>def <span class="ident">format_paragraph</span></span>(<span>paragraph, spaces=12)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Formats paragraphs to be equal in width.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>paragraph</code></strong></dt>
+<dd>paragraph content, str.</dd>
+<dt><strong><code>spaces</code></strong></dt>
+<dd>size of indentation as number of spaces.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def format_paragraph(paragraph, spaces = 12):
+<pre><code class="python">def format_paragraph(paragraph, spaces=12):
+    &#34;&#34;&#34;
+    Formats paragraphs to be equal in width.
+
+    Args:
+        paragraph: paragraph content, str.
+        spaces: size of indentation as number of spaces.
+    &#34;&#34;&#34;
     words = paragraph.replace(&#34;\n&#34;, &#34;&#34;).strip().split()
     s = &#34;\n&#34; + &#34; &#34; * spaces
     row = &#34;&#34;
@@ -768,12 +805,23 @@ MP database.</p></div>
 <span>def <span class="ident">format_texts</span></span>(<span>root)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Formats all text elements in a Parla-Clarin document.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>root</code></strong></dt>
+<dd>Parla-Clarin document as an lxml tree root.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def format_texts(root):
+    &#34;&#34;&#34;
+    Formats all text elements in a Parla-Clarin document.
+
+    Args:
+        root: Parla-Clarin document as an lxml tree root.
+    &#34;&#34;&#34;
     for tag, elem in _iter(root):
 
         if type(elem.text) == str:
@@ -815,12 +863,33 @@ MP database.</p></div>
 <span>def <span class="ident">reclassify</span></span>(<span>root, classifier, tei='{http://www.tei-c.org/ns/1.0}')</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Reclassify nodes in a Parla-Clarin tree.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>root</code></strong></dt>
+<dd>root of the lxml tree to be reclassified</dd>
+<dt><strong><code>classifier</code></strong></dt>
+<dd>lambda function that classifies paragraphs. str-&gt;str,
+takes paragraph content as input, outputs predicted xml tag, such
+as note or u.</dd>
+<dt><strong><code>tei</code></strong></dt>
+<dd>namespace for the output xml</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def reclassify(root, classifier, tei=&#34;{http://www.tei-c.org/ns/1.0}&#34;):
+    &#34;&#34;&#34;
+    Reclassify nodes in a Parla-Clarin tree.
+
+    Args:
+        root: root of the lxml tree to be reclassified
+        classifier: lambda function that classifies paragraphs. str-&gt;str,
+            takes paragraph content as input, outputs predicted xml tag, such
+            as note or u.
+        tei: namespace for the output xml
+    &#34;&#34;&#34;
     prev_elem = None
     for ix, elem_tuple in enumerate(list(_iter(root))):
         tag, elem = elem_tuple

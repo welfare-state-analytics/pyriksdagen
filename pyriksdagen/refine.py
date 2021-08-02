@@ -177,6 +177,16 @@ def find_introductions(root, pattern_db, names_ids):
     return root
 
 def reclassify(root, classifier, tei="{http://www.tei-c.org/ns/1.0}"):
+    """
+    Reclassify nodes in a Parla-Clarin tree.
+
+    Args:
+        root: root of the lxml tree to be reclassified
+        classifier: lambda function that classifies paragraphs. str->str,
+            takes paragraph content as input, outputs predicted xml tag, such
+            as note or u.
+        tei: namespace for the output xml
+    """
     prev_elem = None
     for ix, elem_tuple in enumerate(list(_iter(root))):
         tag, elem = elem_tuple
@@ -228,7 +238,14 @@ def reclassify(root, classifier, tei="{http://www.tei-c.org/ns/1.0}"):
     return root
 
 
-def format_paragraph(paragraph, spaces = 12):
+def format_paragraph(paragraph, spaces=12):
+    """
+    Formats paragraphs to be equal in width.
+
+    Args:
+        paragraph: paragraph content, str.
+        spaces: size of indentation as number of spaces.
+    """
     words = paragraph.replace("\n", "").strip().split()
     s = "\n" + " " * spaces
     row = ""
@@ -248,6 +265,12 @@ def format_paragraph(paragraph, spaces = 12):
     return s
 
 def format_texts(root):
+    """
+    Formats all text elements in a Parla-Clarin document.
+
+    Args:
+        root: Parla-Clarin document as an lxml tree root.
+    """
     for tag, elem in _iter(root):
 
         if type(elem.text) == str:
