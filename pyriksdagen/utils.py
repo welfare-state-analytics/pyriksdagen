@@ -94,50 +94,6 @@ def read_html(path):
     f.close()
     pretty_html = soup.prettify()
     return etree.fromstring(pretty_html)
-    
-def validate_xml_schema(xml_path, schema_path):
-    xml_file = lxml.etree.parse(xml_path)
-
-    schema = lxml.etree.XMLSchema(file=schema_path)
-    is_valid = schema.validate(xml_file)
-
-    return is_valid
-
-
-def parlaclarin_to_md(tree):
-    """
-    Convert Parla-Clarin XML to markdown. Returns a string.
-    """
-    return None
-
-def parlaclarin_to_txt(tree):
-    """
-    Convert Parla-Clarin XML to plain text. Returns a string.
-    """
-    paragraphs = paragraph_iterator(tree)
-    return "\n\n".join(paragraphs)
-
-def speeches_with_name(tree, name=None):
-    """
-    Convert Parla-Clarin XML to plain text. Returns a string. If name is None, returns all speeches.
-    """
-    us = tree.findall('.//{http://www.tei-c.org/ns/1.0}u')
-    for u in us:
-        if name is None:
-            yield "\n".join(u.itertext())
-        elif name.lower() in u.attrib['who'].lower():
-            yield "\n".join(u.itertext())
-
-def paragraph_iterator(root):
-    """
-    Convert Parla-Clarin XML to an iterator of paragraphs. Returns an iterator of str's.
-    """
-    for body in root.findall(".//{http://www.tei-c.org/ns/1.0}body"):
-        for div in body.findall("{http://www.tei-c.org/ns/1.0}div"):
-            for elem in div:
-                p = "\n".join(elem.itertext())
-                yield p
-
 
 if __name__ == '__main__':
     validate_parla_clarin_example()
