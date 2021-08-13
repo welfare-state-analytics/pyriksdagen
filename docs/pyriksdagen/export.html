@@ -40,48 +40,15 @@ from pyriksdagen.curation import apply_curations
 from pyriksdagen.segmentation import apply_instances
 from pyriksdagen.db import filter_db, year_iterator
 
-# Generate parla clarin header
-def _pc_header(metadata):
-    teiHeader = etree.Element(&#34;teiHeader&#34;)
-    
-    # fileDesc
-    fileDesc = etree.SubElement(teiHeader, &#34;fileDesc&#34;)
-    
-    titleStmt = etree.SubElement(fileDesc, &#34;titleStmt&#34;)
-    title = etree.SubElement(titleStmt, &#34;title&#34;)
-    title.text = metadata.get(&#34;document_title&#34;, &#34;N/A&#34;)
-    
-    if &#34;edition&#34; in metadata:
-        editionStmt = etree.SubElement(fileDesc, &#34;editionStmt&#34;)
-        edition = etree.SubElement(editionStmt, &#34;edition&#34;)
-        edition.text = metadata.get(&#34;edition&#34;, &#34;N/A&#34;)
+from pyparlaclarin.create import pc_header
 
-    extent = etree.SubElement(fileDesc, &#34;extent&#34;)
-    publicationStmt = etree.SubElement(fileDesc, &#34;publicationStmt&#34;)
-    authority = etree.SubElement(publicationStmt, &#34;authority&#34;)
-    authority.text = metadata.get(&#34;authority&#34;, &#34;N/A&#34;)
-    
-    sourceDesc = etree.SubElement(fileDesc, &#34;sourceDesc&#34;)
-    sourceBibl = etree.SubElement(sourceDesc, &#34;bibl&#34;)
-    sourceTitle = etree.SubElement(sourceBibl, &#34;title&#34;)
-    sourceTitle.text = metadata.get(&#34;document_title&#34;, &#34;N/A&#34;)
-    
-    # encodingDesc
-    encodingDesc = etree.SubElement(teiHeader, &#34;encodingDesc&#34;)
-    editorialDecl = etree.SubElement(encodingDesc, &#34;editorialDecl&#34;)
-    correction = etree.SubElement(editorialDecl, &#34;correction&#34;)
-    correction_p = etree.SubElement(correction, &#34;p&#34;)
-    correction_p.text = metadata.get(&#34;correction&#34;, &#34;No correction of source texts was performed.&#34;)
-    
-    return teiHeader
-    
 def create_parlaclarin(teis, metadata):
     if type(teis) != list:
         tei = teis
         return create_parlaclarin([tei], metadata)
     
     teiCorpus = etree.Element(&#34;teiCorpus&#34;, xmlns=&#34;http://www.tei-c.org/ns/1.0&#34;)
-    teiHeader = _pc_header(metadata)
+    teiHeader = pc_header(metadata)
     teiCorpus.append(teiHeader)
     
     for tei in teis:
@@ -111,7 +78,7 @@ def create_tei(root, metadata):
     tei = etree.Element(&#34;TEI&#34;)
     protocol_id = root.attrib[&#34;id&#34;]
     metadata[&#34;document_title&#34;] = protocol_id.replace(&#34;_&#34;, &#34; &#34;).split(&#34;-&#34;)[0].replace(&#34;prot&#34;, &#34;Protokoll&#34;)
-    documentHeader = _pc_header(metadata)
+    documentHeader = pc_header(metadata)
     tei.append(documentHeader)
     
     text = etree.SubElement(tei, &#34;text&#34;)
@@ -318,7 +285,7 @@ def parlaclarin_workflow_individual(file_db, archive, curations=None, segmentati
         return create_parlaclarin([tei], metadata)
     
     teiCorpus = etree.Element(&#34;teiCorpus&#34;, xmlns=&#34;http://www.tei-c.org/ns/1.0&#34;)
-    teiHeader = _pc_header(metadata)
+    teiHeader = pc_header(metadata)
     teiCorpus.append(teiHeader)
     
     for tei in teis:
@@ -365,7 +332,7 @@ def parlaclarin_workflow_individual(file_db, archive, curations=None, segmentati
     tei = etree.Element(&#34;TEI&#34;)
     protocol_id = root.attrib[&#34;id&#34;]
     metadata[&#34;document_title&#34;] = protocol_id.replace(&#34;_&#34;, &#34; &#34;).split(&#34;-&#34;)[0].replace(&#34;prot&#34;, &#34;Protokoll&#34;)
-    documentHeader = _pc_header(metadata)
+    documentHeader = pc_header(metadata)
     tei.append(documentHeader)
     
     text = etree.SubElement(tei, &#34;text&#34;)

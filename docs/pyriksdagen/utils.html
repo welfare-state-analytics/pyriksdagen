@@ -124,50 +124,6 @@ def read_html(path):
     f.close()
     pretty_html = soup.prettify()
     return etree.fromstring(pretty_html)
-    
-def validate_xml_schema(xml_path, schema_path):
-    xml_file = lxml.etree.parse(xml_path)
-
-    schema = lxml.etree.XMLSchema(file=schema_path)
-    is_valid = schema.validate(xml_file)
-
-    return is_valid
-
-
-def parlaclarin_to_md(tree):
-    &#34;&#34;&#34;
-    Convert Parla-Clarin XML to markdown. Returns a string.
-    &#34;&#34;&#34;
-    return None
-
-def parlaclarin_to_txt(tree):
-    &#34;&#34;&#34;
-    Convert Parla-Clarin XML to plain text. Returns a string.
-    &#34;&#34;&#34;
-    paragraphs = paragraph_iterator(tree)
-    return &#34;\n\n&#34;.join(paragraphs)
-
-def speeches_with_name(tree, name=None):
-    &#34;&#34;&#34;
-    Convert Parla-Clarin XML to plain text. Returns a string. If name is None, returns all speeches.
-    &#34;&#34;&#34;
-    us = tree.findall(&#39;.//{http://www.tei-c.org/ns/1.0}u&#39;)
-    for u in us:
-        if name is None:
-            yield &#34;\n&#34;.join(u.itertext())
-        elif name.lower() in u.attrib[&#39;who&#39;].lower():
-            yield &#34;\n&#34;.join(u.itertext())
-
-def paragraph_iterator(root):
-    &#34;&#34;&#34;
-    Convert Parla-Clarin XML to an iterator of paragraphs. Returns an iterator of str&#39;s.
-    &#34;&#34;&#34;
-    for body in root.findall(&#34;.//{http://www.tei-c.org/ns/1.0}body&#34;):
-        for div in body.findall(&#34;{http://www.tei-c.org/ns/1.0}div&#34;):
-            for elem in div:
-                p = &#34;\n&#34;.join(elem.itertext())
-                yield p
-
 
 if __name__ == &#39;__main__&#39;:
     validate_parla_clarin_example()
@@ -256,59 +212,6 @@ if __name__ == &#39;__main__&#39;:
     return metadata</code></pre>
 </details>
 </dd>
-<dt id="pyriksdagen.utils.paragraph_iterator"><code class="name flex">
-<span>def <span class="ident">paragraph_iterator</span></span>(<span>root)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Convert Parla-Clarin XML to an iterator of paragraphs. Returns an iterator of str's.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def paragraph_iterator(root):
-    &#34;&#34;&#34;
-    Convert Parla-Clarin XML to an iterator of paragraphs. Returns an iterator of str&#39;s.
-    &#34;&#34;&#34;
-    for body in root.findall(&#34;.//{http://www.tei-c.org/ns/1.0}body&#34;):
-        for div in body.findall(&#34;{http://www.tei-c.org/ns/1.0}div&#34;):
-            for elem in div:
-                p = &#34;\n&#34;.join(elem.itertext())
-                yield p</code></pre>
-</details>
-</dd>
-<dt id="pyriksdagen.utils.parlaclarin_to_md"><code class="name flex">
-<span>def <span class="ident">parlaclarin_to_md</span></span>(<span>tree)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Convert Parla-Clarin XML to markdown. Returns a string.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def parlaclarin_to_md(tree):
-    &#34;&#34;&#34;
-    Convert Parla-Clarin XML to markdown. Returns a string.
-    &#34;&#34;&#34;
-    return None</code></pre>
-</details>
-</dd>
-<dt id="pyriksdagen.utils.parlaclarin_to_txt"><code class="name flex">
-<span>def <span class="ident">parlaclarin_to_txt</span></span>(<span>tree)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Convert Parla-Clarin XML to plain text. Returns a string.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def parlaclarin_to_txt(tree):
-    &#34;&#34;&#34;
-    Convert Parla-Clarin XML to plain text. Returns a string.
-    &#34;&#34;&#34;
-    paragraphs = paragraph_iterator(tree)
-    return &#34;\n\n&#34;.join(paragraphs)</code></pre>
-</details>
-</dd>
 <dt id="pyriksdagen.utils.read_html"><code class="name flex">
 <span>def <span class="ident">read_html</span></span>(<span>path)</span>
 </code></dt>
@@ -351,45 +254,6 @@ inside the text element</p></div>
     xml, cleaned_html</code></pre>
 </details>
 </dd>
-<dt id="pyriksdagen.utils.speeches_with_name"><code class="name flex">
-<span>def <span class="ident">speeches_with_name</span></span>(<span>tree, name=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Convert Parla-Clarin XML to plain text. Returns a string. If name is None, returns all speeches.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def speeches_with_name(tree, name=None):
-    &#34;&#34;&#34;
-    Convert Parla-Clarin XML to plain text. Returns a string. If name is None, returns all speeches.
-    &#34;&#34;&#34;
-    us = tree.findall(&#39;.//{http://www.tei-c.org/ns/1.0}u&#39;)
-    for u in us:
-        if name is None:
-            yield &#34;\n&#34;.join(u.itertext())
-        elif name.lower() in u.attrib[&#39;who&#39;].lower():
-            yield &#34;\n&#34;.join(u.itertext())</code></pre>
-</details>
-</dd>
-<dt id="pyriksdagen.utils.validate_xml_schema"><code class="name flex">
-<span>def <span class="ident">validate_xml_schema</span></span>(<span>xml_path, schema_path)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def validate_xml_schema(xml_path, schema_path):
-    xml_file = lxml.etree.parse(xml_path)
-
-    schema = lxml.etree.XMLSchema(file=schema_path)
-    is_valid = schema.validate(xml_file)
-
-    return is_valid</code></pre>
-</details>
-</dd>
 </dl>
 </section>
 <section>
@@ -407,16 +271,11 @@ inside the text element</p></div>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="two-column">
+<ul class="">
 <li><code><a title="pyriksdagen.utils.element_hash" href="#pyriksdagen.utils.element_hash">element_hash</a></code></li>
 <li><code><a title="pyriksdagen.utils.infer_metadata" href="#pyriksdagen.utils.infer_metadata">infer_metadata</a></code></li>
-<li><code><a title="pyriksdagen.utils.paragraph_iterator" href="#pyriksdagen.utils.paragraph_iterator">paragraph_iterator</a></code></li>
-<li><code><a title="pyriksdagen.utils.parlaclarin_to_md" href="#pyriksdagen.utils.parlaclarin_to_md">parlaclarin_to_md</a></code></li>
-<li><code><a title="pyriksdagen.utils.parlaclarin_to_txt" href="#pyriksdagen.utils.parlaclarin_to_txt">parlaclarin_to_txt</a></code></li>
 <li><code><a title="pyriksdagen.utils.read_html" href="#pyriksdagen.utils.read_html">read_html</a></code></li>
 <li><code><a title="pyriksdagen.utils.read_riksdagen_xml" href="#pyriksdagen.utils.read_riksdagen_xml">read_riksdagen_xml</a></code></li>
-<li><code><a title="pyriksdagen.utils.speeches_with_name" href="#pyriksdagen.utils.speeches_with_name">speeches_with_name</a></code></li>
-<li><code><a title="pyriksdagen.utils.validate_xml_schema" href="#pyriksdagen.utils.validate_xml_schema">validate_xml_schema</a></code></li>
 </ul>
 </li>
 </ul>
